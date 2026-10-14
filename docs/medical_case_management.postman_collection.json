@@ -1,0 +1,241 @@
+{
+  "info": {
+    "_postman_id": "b182cb79-20f5-4e78-9e12-d98c56fae812",
+    "name": "Jajal Medical - Case Management API",
+    "description": "Postman / Thunder Client collection for Jajal Medical Implant Case Management REST APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "sanctum_admin_token",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@jajalmedical.com\",\n  \"password\": \"Secret123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login (Viewer)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"viewer@jajalmedical.com\",\n  \"password\": \"Secret123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "login"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Cases CRUD",
+      "item": [
+        {
+          "name": "List Cases (Paginated 10/page)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cases?page=1&limit=10&status=Planning",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cases"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "status", "value": "Planning" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Case by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cases/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cases", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Case (Admin / Engineer)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"case_number\": \"CASE-5591\",\n  \"patient_reference\": \"PAT-9821\",\n  \"surgeon_name\": \"Dr. Sarah Chen\",\n  \"implant_type\": \"Patient-Specific Titanium Mandibular Plate\",\n  \"status\": \"Planning\",\n  \"priority\": \"High\",\n  \"surgery_date\": \"2026-11-20\",\n  \"notes\": \"Trauma reconstruction with mirror imaging.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cases",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cases"]
+            }
+          }
+        },
+        {
+          "name": "Update Case (Admin / Engineer)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"case_number\": \"CASE-0001\",\n  \"patient_reference\": \"PAT-4821\",\n  \"surgeon_name\": \"Dr. Sarah Chen\",\n  \"implant_type\": \"Custom 3D-Printed Titanium Cranial Mesh\",\n  \"status\": \"Approved\",\n  \"priority\": \"High\",\n  \"surgery_date\": \"2026-10-25\",\n  \"notes\": \"Updated surgical tray verification.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cases/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cases", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Case (Admin Only - 403 for Viewer)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cases/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cases", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Analytics & Integrations",
+      "item": [
+        {
+          "name": "Dashboard Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Public Holidays (Nager.Date Proxy)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/holidays",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "holidays"]
+            }
+          }
+        },
+        {
+          "name": "Run Automated Feature Tests",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/tests/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tests", "run"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

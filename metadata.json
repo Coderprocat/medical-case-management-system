@@ -1,0 +1,6 @@
+{
+  "name": "Jajal Medical Case Management",
+  "description": "Enterprise medical device implant case tracking system with role-based access control (Admin, Viewer, Engineer), comprehensive CRUD, dashboard statistics, REST API, automated tests, and traceability documentation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
